@@ -7,6 +7,7 @@ defmodule Flaggy.Mixfile do
       version: "0.1.0",
       elixir: "~> 1.5",
       start_permanent: Mix.env == :prod,
+      test_coverage: [tool: ExCoveralls],
       deps: deps()
     ]
   end
@@ -20,6 +21,8 @@ defmodule Flaggy.Mixfile do
 
   defp deps do
     [
+      {:ex_doc, "~> 0.16", only: :dev, runtime: false},
+      {:excoveralls, "~> 0.7", only: :test},
       {:protein, "~> 0.9.0", optional: true},
       {:yaml_elixir, "~> 1.3.1"}
     ]

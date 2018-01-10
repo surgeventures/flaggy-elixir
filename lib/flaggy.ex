@@ -20,7 +20,8 @@ defmodule Flaggy do
 
   ## Examples
 
-      Flaggy.active?(:new_ui, %{"country_code" => "PL", "user_id" => 123})
+      iex> Flaggy.active?(:new_ui, %{"country" => "PL", "user_id" => 123})
+      false
 
   """
   def active?(feature_atom, meta) when is_atom(feature_atom) do
@@ -42,6 +43,15 @@ defmodule Flaggy do
 
   @doc """
   Updates the current definition by putting a new feature's definition into it.
+
+  ## Examples
+
+      iex> Flaggy.put_feature(:my_feature, %{"rules" => %{"attribute" => "country", "is" => "PL"}})
+      iex> Flaggy.active?(:my_feature, %{"country" => "PL"})
+      true
+      iex> Flaggy.active?(:my_feature, %{"country" => "EN"})
+      false
+
   """
   def put_feature(feature_atom, feature_definition) do
     feature_string = to_string(feature_atom)

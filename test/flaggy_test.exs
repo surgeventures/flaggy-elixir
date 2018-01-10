@@ -1,5 +1,6 @@
 defmodule FlaggyMemoryTest do
   use ExUnit.Case
+  doctest Flaggy
 
   @my_feature_definition %{
     "rules" => %{
