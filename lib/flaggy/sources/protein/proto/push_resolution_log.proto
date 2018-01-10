@@ -1,0 +1,9 @@
+syntax = "proto3";
+package push_resolution_log;
+
+message Request {
+  string app = 1;
+  string feature = 2;
+  string meta = 3;
+  bool resolution = 4;
+}

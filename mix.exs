@@ -20,6 +20,7 @@ defmodule Flaggy.Mixfile do
 
   defp deps do
     [
+      {:protein, "~> 0.9.0", optional: true},
       {:yaml_elixir, "~> 1.3.1"}
     ]
   end

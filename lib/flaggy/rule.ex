@@ -1,9 +1,6 @@
 defmodule Flaggy.Rule do
   @moduledoc false
 
-  def satisfied?(%{"enabled" => value}, _meta) do
-    value
-  end
   def satisfied?(%{"all" => nested_rules}, meta) do
     Enum.all?(nested_rules, &satisfied?(&1, meta))
   end

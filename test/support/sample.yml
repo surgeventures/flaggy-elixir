@@ -1,29 +1,6 @@
-my_feature_3:
-  rules:
-    enabled: true
-
-my_feature_4:
+my_feature:
   rules:
     attribute: country_code
     in:
       - AE
-      - US
-
-my_feature_5:
-  rules:
-    any:
-      -
-        attribute: country_code
-        is: 'AE'
-      -
-        all:
-          -
-            not:
-              attribute: provider_id
-              is: 0
-          -
-            attribute: country_code
-            in: ['US', 'PL']
-
-my_feature_1: removed
-my_feature_2: removed
+      - PL

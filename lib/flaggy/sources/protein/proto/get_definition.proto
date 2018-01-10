@@ -1,0 +1,10 @@
+syntax = "proto3";
+package get_definition;
+
+message Request {
+  string app = 1;
+}
+
+message Response {
+  string definition = 1;
+}
