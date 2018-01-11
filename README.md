@@ -43,17 +43,17 @@ config :flaggy, :source,
   type: :memory
 ```
 
-### `yaml`
+### `json`
 
-Loads definition from YAML file. It's most useful for development.
+Loads definition from JSON file. It's most useful for development.
 
 #### Configuration
 
 ```elixir
 config :flaggy, :source,
-  type: :yaml,
+  type: :json,
   eager_load: false,
-  file: "path/to/definition.yml"
+  file: "path/to/definition.json"
 ```
 
 ### `protein`
@@ -77,11 +77,13 @@ Checks equality of specific meta attribute with given value.
 
 #### Example
 
-YAML snippet:
+JSON snippet:
 
-```yaml
-attribute: country_code
-is: PL
+```json
+{
+  "attribute": "country_code"
+  "is": "PL"
+}
 ```
 
 Code snippet:
@@ -100,14 +102,13 @@ Checks inclusion of specific meta attribute in a set of given values.
 
 #### Example
 
-YAML snippet:
+JSON snippet:
 
-```yaml
-attribute: country_code
-in:
-  - PL
-  - AE
-  - US
+```json
+{
+  "attribute": "country_code",
+  "in": ["PL", "AE", "US"]
+}
 ```
 
 Code snippet:
@@ -128,17 +129,21 @@ Checks if all sub-rules are met.
 
 #### Example
 
-YAML snippet:
+JSON snippet:
 
-```yaml
-all:
-  -
-    attribute: country_code
-    in: ["PL", "AE", "US"]
-  -
-    attribute: user_id
-    in: [1, 2, 3, 4, 5]
-
+```json
+{
+  "all": [
+    {
+      "attribute": "country_code",
+      "in": ["PL", "AE", "US"]
+    },
+    {
+      "attribute": "user_id",
+      "in": [1, 2, 3, 4, 5]
+    }
+  ]
+}
 ```
 
 Code snippet:
@@ -170,17 +175,21 @@ Checks if any of sub-rules is met.
 
 #### Example
 
-YAML snippet:
+JSON snippet:
 
-```yaml
-any:
-  -
-    attribute: country_code
-    in: ["PL", "AE", "US"]
-  -
-    attribute: user_id
-    in: [1, 2, 3, 4, 5]
-
+```json
+{
+  "any": [
+    {
+      "attribute": "country_code",
+      "in": ["PL", "AE", "US"]
+    },
+    {
+      "attribute": "user_id",
+      "in": [1, 2, 3, 4, 5]
+    }
+  ]
+}
 ```
 
 Code snippet:
@@ -212,12 +221,15 @@ Checks if sub-rule is not met.
 
 #### Example
 
-YAML snippet:
+JSON snippet:
 
-```yaml
-not:
-  attribute: country_code
-  in: ["PL", "AE", "US"]
+```json
+{
+  "not": {
+    "attribute": "country_code",
+    "in": ["PL", "AE", "US"]
+  }
+}
 ```
 
 Code snippet:
@@ -244,5 +256,5 @@ circumstances:
 
 - feature doesn't exist or was removed
 - rule uses non-sent attribute
-- source is unavailable (but raises if YAML file doesn't exist)
+- source is unavailable (but raises if JSON file doesn't exist)
 - feature/rule definition is malformed

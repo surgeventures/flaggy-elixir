@@ -3,6 +3,7 @@ defmodule Flaggy.ProteinSource do
 
   use Supervisor
   require Logger
+  alias Flaggy.Source
   alias __MODULE__.{Client, Manager}
   alias Client.LogResolution.Request, as: LogRequest
 
@@ -30,15 +31,15 @@ defmodule Flaggy.ProteinSource do
   def log(feature, meta, resolution) do
     Client.push(%LogRequest{
       app: get_app(),
-      feature: feature,
-      meta: meta,
+      feature: to_string(feature),
+      meta: Poison.encode!(meta),
       resolution: resolution
     })
   end
 
   defp get_app do
-    :flaggy
-    |> Application.get_env(:source, [])
+    Source.get_opts()
     |> Keyword.fetch!(:app)
+    |> to_string()
   end
 end

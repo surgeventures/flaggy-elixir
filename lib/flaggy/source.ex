@@ -2,7 +2,7 @@ defmodule Flaggy.Source do
   @moduledoc false
 
   use Supervisor
-  alias Flaggy.{MemorySource, ProteinSource, YAMLSource}
+  alias Flaggy.{MemorySource, ProteinSource, JSONSource}
 
   def start_link(_opts \\ []) do
     Supervisor.start_link(__MODULE__, [], name: __MODULE__)
@@ -27,7 +27,7 @@ defmodule Flaggy.Source do
     case source_type do
       :memory -> MemorySource
       :protein -> ProteinSource
-      :yaml -> YAMLSource
+      :json -> JSONSource
     end
   end
 end

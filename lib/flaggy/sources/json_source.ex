@@ -1,7 +1,8 @@
-defmodule Flaggy.YAMLSource do
+defmodule Flaggy.JSONSource do
   @moduledoc false
 
   use GenServer
+  alias Flaggy.Source
 
   def start_link(opts \\ []) do
     definition = if Keyword.get(opts, :eager_load), do: load_definition()
@@ -32,8 +33,9 @@ defmodule Flaggy.YAMLSource do
   defp ensure_definition(definition), do: definition
 
   defp load_definition do
-    source = Application.get_env(:flaggy, :source)
-    file = Keyword.fetch!(source, :file)
-    YamlElixir.read_from_file(file)
+    Source.get_opts()
+    |> Keyword.fetch!(:file)
+    |> File.read!
+    |> Poison.decode!
   end
 end

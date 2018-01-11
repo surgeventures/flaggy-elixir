@@ -27,9 +27,9 @@ defmodule Flaggy.Mixfile do
     [
       {:ex_doc, "~> 0.16", only: :dev, runtime: false},
       {:excoveralls, "~> 0.7", only: :test},
-      {:protein, "~> 0.9.0", optional: true},
+      {:protein, "~> 0.10.0", optional: true},
       {:recon, "~> 2.3.2", optional: true},
-      {:yaml_elixir, "~> 1.3.1"}
+      {:poison, ">= 1.0.0"}
     ]
   end
 end

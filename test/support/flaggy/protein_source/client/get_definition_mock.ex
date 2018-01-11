@@ -6,12 +6,14 @@ defmodule Flaggy.ProteinSource.Client.GetDefinitionMock do
   def call(%Request{app: "my_app"}) do
     {:ok, %Response{
       definition: """
-        my_feature:
-          rules:
-            attribute: country_code
-            in:
-              - AE
-              - PL
+      {
+        "my_feature": {
+          "rules": {
+            "attribute": "country_code",
+            "in": ["AE", "PL"]
+          }
+        }
+      }
       """
     }}
   end
