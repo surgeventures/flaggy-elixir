@@ -11,6 +11,13 @@ jobs:
       - run: mix local.hex --force
       - run: mix local.rebar --force
       - run: mix deps.get
+      - restore_cache:
+          key: flaggy-v1-deps-{{ checksum "mix.lock" }}
+      - run: mix deps.compile
+      - save_cache:
+          key: flaggy-v1-deps-{{ checksum "mix.lock" }}
+          paths:
+            - ~/repo/_build
       - run: mix compile --warnings-as-errors --force
       - run: mix test
       - run: mix credo
