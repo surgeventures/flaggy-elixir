@@ -5,6 +5,7 @@ jobs:
       - image: circleci/elixir:1.5
     environment:
       - MIX_ENV: test
+    working_directory: ~/repo
     steps:
       - checkout
       - run: mix local.hex --force
@@ -13,4 +14,10 @@ jobs:
       - run: mix compile --warnings-as-errors --force
       - run: mix test
       - run: mix credo
-      - run: mix coveralls
+      - run: mix coveralls.html
+      - store_test_results:
+          path: /tmp/flaggy-test-results
+      - store_artifacts:
+          path: ~/repo/cover
+          destination: coverage
+
