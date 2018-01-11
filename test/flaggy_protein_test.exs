@@ -1,15 +1,17 @@
-defmodule FlaggyYAMLTest do
+defmodule FlaggyProteinTest do
   use ExUnit.Case
-  alias Flaggy.YAMLSource
+  alias Flaggy.ProteinSource
 
   setup do
-    Application.put_env(:flaggy, :source, type: :yaml, file: "test/support/sample.yml")
-    YAMLSource.start_link()
+    Application.put_env(:flaggy, :source, type: :protein, app: :my_app)
+    Application.put_env(:flaggy, Flaggy.ProteinSource.Client, transport: [adapter: :http])
+    ProteinSource.start_link()
+    :timer.sleep(100)
     :ok
   end
 
   describe "active?/2" do
-    test "returns true/false depending on rules from YAML file" do
+    test "returns true/false depending on rules from Protein backend" do
       assert Flaggy.active?(:my_feature, %{"country_code" => "PL"}) == true
       assert Flaggy.active?(:my_feature, %{"country_code" => "AE"}) == true
       assert Flaggy.active?(:my_feature, %{"country_code" => "US"}) == false

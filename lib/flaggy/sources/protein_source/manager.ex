@@ -29,7 +29,8 @@ defmodule Flaggy.ProteinSource.Manager do
   end
 
   def handle_info(:load, _state) do
-    %Response{definition: definition} = Client.call!(%Request{app: get_app()})
+    %Response{definition: definition_yaml} = Client.call!(%Request{app: get_app()})
+    definition = YamlElixir.read_from_string(definition_yaml)
     :ets.insert(__MODULE__, {:definition, definition})
     Process.send_after(__MODULE__, :load, get_refresh_interval())
 
