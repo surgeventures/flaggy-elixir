@@ -2,7 +2,7 @@ defmodule Flaggy.Source do
   @moduledoc false
 
   use Supervisor
-  alias Flaggy.{MemorySource, YAMLSource}
+  alias Flaggy.{MemorySource, ProteinSource, YAMLSource}
 
   def start_link(_opts \\ []) do
     Supervisor.start_link(__MODULE__, [], name: __MODULE__)
@@ -17,12 +17,16 @@ defmodule Flaggy.Source do
     Supervisor.init([source_spec], strategy: :one_for_one)
   end
 
+  def get_opts do
+    Application.get_env(:flaggy, :source, [])
+  end
+
   def get do
-    source = Application.get_env(:flaggy, :source, [])
-    source_type = Keyword.get(source, :type, :memory)
+    source_type = Keyword.get(get_opts(), :type, :memory)
 
     case source_type do
       :memory -> MemorySource
+      :protein -> ProteinSource
       :yaml -> YAMLSource
     end
   end

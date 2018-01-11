@@ -1,5 +1,5 @@
 syntax = "proto3";
-package push_resolution_log;
+package push_resolution;
 
 message Request {
   string app = 1;

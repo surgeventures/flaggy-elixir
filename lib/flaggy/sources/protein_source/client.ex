@@ -1,8 +1,8 @@
-defmodule Flaggy.Protein.Client do
+defmodule Flaggy.ProteinSource.Client do
   @moduledoc false
 
   use Protein.Client
 
   proto :get_definition
-  proto :push_resolution_log
+  proto :log_resolution
 end

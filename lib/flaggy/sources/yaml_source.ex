@@ -9,7 +9,7 @@ defmodule Flaggy.YAMLSource do
   end
 
   def get do
-    {:ok, GenServer.call(__MODULE__, :get)}
+    GenServer.call(__MODULE__, :get)
   end
 
   def update(_update_func) do
