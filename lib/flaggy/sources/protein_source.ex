@@ -8,6 +8,7 @@ defmodule Flaggy.ProteinSource do
   alias Client.LogResolution.Request, as: LogRequest
 
   def start_link(_opts \\ []) do
+    Application.put_env(:flaggy, Flaggy.ProteinSource.Client, Source.get_opts())
     Supervisor.start_link(__MODULE__, [], name: __MODULE__)
   end
 

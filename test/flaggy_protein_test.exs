@@ -3,8 +3,7 @@ defmodule FlaggyProteinTest do
   alias Flaggy.ProteinSource
 
   setup do
-    Application.put_env(:flaggy, :source, type: :protein, app: :my_app)
-    Application.put_env(:flaggy, Flaggy.ProteinSource.Client, transport: [adapter: :http])
+    Application.put_env(:flaggy, :source, type: :protein, app: :my_app, transport: [adapter: :http])
     ProteinSource.start_link()
     :timer.sleep(100)
     :ok
