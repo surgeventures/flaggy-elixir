@@ -6,6 +6,8 @@ jobs:
     steps:
       - checkout
       - run: export MIX_ENV=test
+      - run: mix local.hex --force
+      - run: mix local.rebar --force
       - run: mix deps.get
       - run: mix test
       - run: mix credo
