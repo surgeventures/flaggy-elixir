@@ -81,7 +81,7 @@ JSON snippet:
 
 ```json
 {
-  "attribute": "country_code"
+  "attribute": "country_code",
   "is": "PL"
 }
 ```
