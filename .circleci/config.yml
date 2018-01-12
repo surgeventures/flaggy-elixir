@@ -14,10 +14,7 @@ jobs:
       - run: mix compile --warnings-as-errors --force
       - run: mix test
       - run: mix credo
-      - run: mix coveralls.html
+      - run: mix coveralls.json
+      - run: bash <(curl -s https://codecov.io/bash)
       - store_test_results:
           path: /tmp/flaggy-test-results
-      - store_artifacts:
-          path: ~/repo/cover
-          destination: coverage
-
