@@ -9,11 +9,7 @@ defmodule Flaggy.Source do
   end
 
   def init(_) do
-    import Supervisor.Spec
-
-    type_spec = worker(get_type_mod(), [])
-
-    Supervisor.init([type_spec], strategy: :one_for_one)
+    Supervisor.init([get_type_mod()], strategy: :one_for_one)
   end
 
   def get_features do

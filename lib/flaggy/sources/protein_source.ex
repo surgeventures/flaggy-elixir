@@ -15,12 +15,7 @@ defmodule Flaggy.ProteinSource do
   end
 
   def init(_) do
-    import Supervisor.Spec
-
-    client_spec = supervisor(Client, [])
-    manager_spec = worker(Manager, [])
-
-    Supervisor.init([client_spec, manager_spec], strategy: :one_for_one)
+    Supervisor.init([Client, Manager], strategy: :one_for_one)
   end
 
   def update_features(_update_func) do
