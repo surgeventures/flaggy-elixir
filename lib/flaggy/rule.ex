@@ -16,6 +16,9 @@ defmodule Flaggy.Rule do
   def satisfied?(%{"in" => values, "attribute" => attribute}, meta) do
     fetch_or_false(meta, attribute, &(&1 in values))
   end
+  def satisfied?(_invalid, _meta) do
+    false
+  end
 
   def fetch_or_false(meta, attribute, callback) do
     case Map.fetch(meta, attribute) do

@@ -16,10 +16,18 @@ defmodule FlaggyMemoryTest do
     }
   }
 
+  @malformed_rule_definition %{
+    "rules" => %{
+      "attr" => "country_code",
+      "yes" => "PL"
+    }
+  }
+
   setup do
     Application.put_env(:flaggy, :source, type: :memory)
     Flaggy.put_feature(:my_feature, @my_feature_definition)
     Flaggy.put_feature(:malformed_feature, @malformed_feature_definition)
+    Flaggy.put_feature(:malformed_rule, @malformed_rule_definition)
   end
 
   describe "active?/2" do
@@ -29,6 +37,10 @@ defmodule FlaggyMemoryTest do
 
     test "returns false on malformed feature" do
       assert Flaggy.active?(:malformed_feature, %{}) == false
+    end
+
+    test "returns false on malformed rule" do
+      assert Flaggy.active?(:malformed_rule, %{}) == false
     end
 
     test "returns false on missing attribute" do
