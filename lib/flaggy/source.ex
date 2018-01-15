@@ -11,23 +11,36 @@ defmodule Flaggy.Source do
   def init(_) do
     import Supervisor.Spec
 
-    source_mod = get()
-    source_spec = worker(source_mod, [])
+    type_spec = worker(get_type_mod(), [])
 
-    Supervisor.init([source_spec], strategy: :one_for_one)
+    Supervisor.init([type_spec], strategy: :one_for_one)
+  end
+
+  def get_features do
+    get_type_mod().get_features()
+  end
+
+  def get_type do
+    Keyword.get(get_opts(), :type, :memory)
+  end
+
+  def get_type_mod do
+    case get_type() do
+      :memory -> MemorySource
+      :protein -> ProteinSource
+      :json -> JSONSource
+    end
   end
 
   def get_opts do
     Application.get_env(:flaggy, :source, [])
   end
 
-  def get do
-    source_type = Keyword.get(get_opts(), :type, :memory)
+  def log_resolution(feature, meta, resolution) do
+    get_type_mod().log_resolution(feature, meta, resolution)
+  end
 
-    case source_type do
-      :memory -> MemorySource
-      :protein -> ProteinSource
-      :json -> JSONSource
-    end
+  def update_features(update_func) do
+    get_type_mod().update_features(update_func)
   end
 end

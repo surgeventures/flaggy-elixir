@@ -1,11 +1,11 @@
-defmodule Flaggy.ProteinSource.Client.GetDefinitionMock do
+defmodule Flaggy.ProteinSource.Client.GetFeaturesMock do
   @moduledoc false
 
-  alias Flaggy.ProteinSource.Client.GetDefinition.{Request, Response}
+  alias Flaggy.ProteinSource.Client.GetFeatures.{Request, Response}
 
   def call(%Request{app: "my_app"}) do
     {:ok, %Response{
-      definition: """
+      features: """
       {
         "my_feature": {
           "rules": {

@@ -5,7 +5,7 @@ defmodule FlaggyProteinTest do
   setup do
     Application.put_env(:flaggy, :source, type: :protein, app: :my_app, transport: [adapter: :http])
     ProteinSource.start_link()
-    :timer.sleep(100)
+    :timer.sleep(500)
     :ok
   end
 

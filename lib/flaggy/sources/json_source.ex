@@ -3,37 +3,38 @@ defmodule Flaggy.JSONSource do
 
   use GenServer
   alias Flaggy.Source
+  defdelegate get_opts(), to: Source
 
   def start_link(opts \\ []) do
-    definition = if Keyword.get(opts, :eager_load), do: load_definition()
-    GenServer.start_link(__MODULE__, definition, name: __MODULE__)
+    features = if Keyword.get(opts, :eager_load), do: load_features()
+    GenServer.start_link(__MODULE__, features, name: __MODULE__)
   end
 
-  def get do
-    GenServer.call(__MODULE__, :get)
+  def get_features do
+    GenServer.call(__MODULE__, :get_features)
   end
 
-  def update(_update_func) do
+  def update_features(_update_func) do
     raise("This source cannot be updated")
   end
 
-  def log(_feature, _meta, _resolution) do
+  def log_resolution(_feature, _meta, _resolution) do
     nil
   end
 
-  def handle_call(:get, _from, definition_or_nil) do
-    definition = ensure_definition(definition_or_nil)
-    {:reply, definition, definition}
+  def handle_call(:get_features, _from, features_or_nil) do
+    features = ensure_features(features_or_nil)
+    {:reply, features, features}
   end
   def handle_call(request, from, state) do
     super(request, from, state)
   end
 
-  defp ensure_definition(nil), do: load_definition()
-  defp ensure_definition(definition), do: definition
+  defp ensure_features(nil), do: load_features()
+  defp ensure_features(features), do: features
 
-  defp load_definition do
-    Source.get_opts()
+  defp load_features do
+    get_opts()
     |> Keyword.fetch!(:file)
     |> File.read!
     |> Poison.decode!

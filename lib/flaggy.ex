@@ -3,7 +3,7 @@ defmodule Flaggy do
   Multi-source Elixir client for managing feature flags.
   """
 
-  alias __MODULE__.{Definition, ResolutionLog, Rule, Source}
+  alias __MODULE__.{Rule, Source}
 
   @doc false
   def start(_type, _args) do
@@ -26,14 +26,14 @@ defmodule Flaggy do
   """
   def active?(feature_atom, meta) when is_atom(feature_atom) do
     feature_string = to_string(feature_atom)
-    definition = Definition.get()
+    features = Source.get_features()
 
-    with {:ok, feature_def} <- Map.fetch(definition, feature_string),
+    with {:ok, feature_def} <- Map.fetch(features, feature_string),
          :error <- Map.fetch(feature_def, "enabled"),
          {:ok, base_rule} <- Map.fetch(feature_def, "rules")
     do
       resolution = Rule.satisfied?(base_rule, meta)
-      ResolutionLog.push(feature_atom, meta, resolution)
+      Source.log_resolution(feature_atom, meta, resolution)
       resolution
     else
       {:ok, true} -> true
@@ -55,8 +55,8 @@ defmodule Flaggy do
   """
   def put_feature(feature_atom, feature_definition) do
     feature_string = to_string(feature_atom)
-    Definition.update(fn definition ->
-      Map.put(definition, feature_string, feature_definition)
+    Source.update_features(fn features ->
+      Map.put(features, feature_string, feature_definition)
     end)
   end
 end

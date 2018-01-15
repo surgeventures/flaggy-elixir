@@ -1,10 +1,10 @@
 syntax = "proto3";
-package get_definition;
+package get_features;
 
 message Request {
   string app = 1;
 }
 
 message Response {
-  string definition = 1;
+  string features = 1;
 }
