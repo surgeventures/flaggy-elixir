@@ -1,6 +1,0 @@
-my_feature:
-  rules:
-    attribute: country_code
-    in:
-      - AE
-      - PL

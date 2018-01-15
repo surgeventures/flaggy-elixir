@@ -8,7 +8,7 @@ defmodule Flaggy.MemorySource do
   end
 
   def get do
-    {:ok, GenServer.call(__MODULE__, :get)}
+    GenServer.call(__MODULE__, :get)
   end
 
   def update(update_func) do

@@ -26,9 +26,9 @@ defmodule Flaggy do
   """
   def active?(feature_atom, meta) when is_atom(feature_atom) do
     feature_string = to_string(feature_atom)
+    definition = Definition.get()
 
-    with {:ok, definition} <- Definition.get(),
-         {:ok, feature_def} <- Map.fetch(definition, feature_string),
+    with {:ok, feature_def} <- Map.fetch(definition, feature_string),
          :error <- Map.fetch(feature_def, "enabled"),
          {:ok, base_rule} <- Map.fetch(feature_def, "rules")
     do

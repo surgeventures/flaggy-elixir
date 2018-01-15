@@ -6,6 +6,7 @@ defmodule Flaggy.Mixfile do
       app: :flaggy,
       version: "0.1.0",
       elixir: "~> 1.5",
+      elixirc_paths: elixirc_paths(Mix.env),
       start_permanent: Mix.env == :prod,
       test_coverage: [tool: ExCoveralls],
       deps: deps()
@@ -19,12 +20,18 @@ defmodule Flaggy.Mixfile do
     ]
   end
 
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_),     do: ["lib"]
+
   defp deps do
     [
+      {:credo, "~> 0.8", only: [:dev, :test]},
       {:ex_doc, "~> 0.16", only: :dev, runtime: false},
       {:excoveralls, "~> 0.7", only: :test},
-      {:protein, "~> 0.9.0", optional: true},
-      {:yaml_elixir, "~> 1.3.1"}
+      {:junit_formatter, "~> 2.1", only: :test},
+      {:protein, "~> 0.10", optional: true},
+      {:recon, "~> 2.3", optional: true},
+      {:poison, ">= 1.0.0"}
     ]
   end
 end
