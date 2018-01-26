@@ -40,7 +40,12 @@ This is the default source in case no configuration was provided.
 
 ```elixir
 config :flaggy, :source,
-  type: :memory
+  type: :memory,
+  initial_features: %{
+    "my_feature" => %{
+      "enabled" => true
+    }
+  }
 ```
 
 ### `json`

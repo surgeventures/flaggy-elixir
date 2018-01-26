@@ -10,6 +10,10 @@ defmodule Flaggy.JSONSource do
     GenServer.start_link(__MODULE__, features, name: __MODULE__)
   end
 
+  def init(features) do
+    {:ok, features}
+  end
+
   def get_features do
     GenServer.call(__MODULE__, :get_features)
   end
@@ -26,6 +30,7 @@ defmodule Flaggy.JSONSource do
     features = ensure_features(features_or_nil)
     {:reply, features, features}
   end
+
   def handle_call(request, from, state) do
     super(request, from, state)
   end
@@ -36,7 +41,7 @@ defmodule Flaggy.JSONSource do
   defp load_features do
     get_opts()
     |> Keyword.fetch!(:file)
-    |> File.read!
-    |> Poison.decode!
+    |> File.read!()
+    |> Poison.decode!()
   end
 end

@@ -2,9 +2,16 @@ defmodule Flaggy.MemorySource do
   @moduledoc false
 
   use GenServer
+  alias Flaggy.Source
+  defdelegate get_opts(), to: Source
 
   def start_link(_opts \\ []) do
-    GenServer.start_link(__MODULE__, %{}, name: __MODULE__)
+    features = Keyword.get(get_opts(), :initial_features, %{})
+    GenServer.start_link(__MODULE__, features, name: __MODULE__)
+  end
+
+  def init(features) do
+    {:ok, features}
   end
 
   def get_features do
@@ -22,6 +29,7 @@ defmodule Flaggy.MemorySource do
   def handle_call(:get_features, _from, features) do
     {:reply, features, features}
   end
+
   def handle_call(request, from, state) do
     super(request, from, state)
   end
