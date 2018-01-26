@@ -22,15 +22,26 @@ defmodule Flaggy.ProteinSource.Manager do
   end
 
   def handle_info(:load, _state) do
-    %Response{features: encoded_features} = Client.call!(%Request{app: get_app()})
-    features = Poison.decode!(encoded_features)
-    Storage.set_features(features)
-    Process.send_after(__MODULE__, :load, get_refresh_interval())
-    {:noreply, nil}
+    try do
+      %Response{features: encoded_features} = Client.call!(%Request{app: get_app()})
+      features = Poison.decode!(encoded_features)
+      Storage.set_features(features)
+      Process.send_after(__MODULE__, :load, get_refresh_interval())
+      {:noreply, nil}
+    rescue
+      e in Protein.TransportError ->
+        Logger.error("Failed to load features due to Protein transport error (#{Exception.message(e)})")
+        Process.send_after(__MODULE__, :load, get_retry_interval())
+        {:noreply, nil}
+    end
   end
 
   defp get_refresh_interval do
     Keyword.get(get_opts(), :refresh_interval, 60_000)
+  end
+
+  defp get_retry_interval do
+    Keyword.get(get_opts(), :retry_interval, 5_000)
   end
 
   defp get_app do
