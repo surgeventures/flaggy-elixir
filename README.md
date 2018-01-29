@@ -1,4 +1,4 @@
-# Flaggy
+# Flaggy for Elixir
 
 **Multi-source Elixir client for managing feature flags.**
 
