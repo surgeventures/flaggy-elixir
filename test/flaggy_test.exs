@@ -66,16 +66,21 @@ defmodule FlaggyMemoryTest do
     end
 
     test "returns true/false depending on 'all' rule" do
-      Flaggy.put_feature(:my_feature, %{"rules" => %{"all" => [
-        %{
-          "attribute" => "x",
-          "is" => "y"
-        },
-        %{
-          "attribute" => "a",
-          "is" => "b"
+      Flaggy.put_feature(:my_feature, %{
+        "rules" => %{
+          "all" => [
+            %{
+              "attribute" => "x",
+              "is" => "y"
+            },
+            %{
+              "attribute" => "a",
+              "is" => "b"
+            }
+          ]
         }
-      ]}})
+      })
+
       assert Flaggy.active?(:my_feature, %{"x" => "y", "a" => "b"}) == true
       assert Flaggy.active?(:my_feature, %{"x" => "y"}) == false
       assert Flaggy.active?(:my_feature, %{"a" => "b"}) == false
@@ -83,16 +88,21 @@ defmodule FlaggyMemoryTest do
     end
 
     test "returns true/false depending on 'any' rule" do
-      Flaggy.put_feature(:my_feature, %{"rules" => %{"any" => [
-        %{
-          "attribute" => "x",
-          "is" => "y"
-        },
-        %{
-          "attribute" => "a",
-          "is" => "b"
+      Flaggy.put_feature(:my_feature, %{
+        "rules" => %{
+          "any" => [
+            %{
+              "attribute" => "x",
+              "is" => "y"
+            },
+            %{
+              "attribute" => "a",
+              "is" => "b"
+            }
+          ]
         }
-      ]}})
+      })
+
       assert Flaggy.active?(:my_feature, %{"x" => "y", "a" => "b"}) == true
       assert Flaggy.active?(:my_feature, %{"x" => "y"}) == true
       assert Flaggy.active?(:my_feature, %{"a" => "b"}) == true
@@ -100,10 +110,15 @@ defmodule FlaggyMemoryTest do
     end
 
     test "returns true/false depending on 'not' rule" do
-      Flaggy.put_feature(:my_feature, %{"rules" => %{"not" => %{
-        "attribute" => "x",
-        "is" => "y"
-      }}})
+      Flaggy.put_feature(:my_feature, %{
+        "rules" => %{
+          "not" => %{
+            "attribute" => "x",
+            "is" => "y"
+          }
+        }
+      })
+
       assert Flaggy.active?(:my_feature, %{"x" => "y"}) == false
       assert Flaggy.active?(:my_feature, %{"x" => "z"}) == true
       assert Flaggy.active?(:my_feature, %{"a" => "b"}) == true

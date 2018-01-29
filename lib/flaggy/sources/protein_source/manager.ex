@@ -30,7 +30,10 @@ defmodule Flaggy.ProteinSource.Manager do
       {:noreply, nil}
     rescue
       e in Protein.TransportError ->
-        Logger.error("Failed to load features due to Protein transport error (#{Exception.message(e)})")
+        Logger.error(
+          "Failed to load features due to Protein transport error (#{Exception.message(e)})"
+        )
+
         Process.send_after(__MODULE__, :load, get_retry_interval())
         {:noreply, nil}
     end

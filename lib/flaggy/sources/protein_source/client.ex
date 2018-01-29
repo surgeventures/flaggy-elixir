@@ -3,6 +3,6 @@ defmodule Flaggy.ProteinSource.Client do
 
   use Protein.Client
 
-  proto :get_features
-  proto :log_resolution
+  proto(:get_features)
+  proto(:log_resolution)
 end

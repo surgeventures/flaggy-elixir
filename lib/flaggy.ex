@@ -30,8 +30,7 @@ defmodule Flaggy do
 
     with {:ok, feature_def} <- Map.fetch(features, feature_string),
          :error <- Map.fetch(feature_def, "enabled"),
-         {:ok, base_rule} <- Map.fetch(feature_def, "rules")
-    do
+         {:ok, base_rule} <- Map.fetch(feature_def, "rules") do
       resolution = Rule.satisfied?(base_rule, meta)
       Source.log_resolution(feature_atom, meta, resolution)
       resolution
@@ -55,6 +54,7 @@ defmodule Flaggy do
   """
   def put_feature(feature_atom, feature_definition) do
     feature_string = to_string(feature_atom)
+
     Source.update_features(fn features ->
       Map.put(features, feature_string, feature_definition)
     end)

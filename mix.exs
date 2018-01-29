@@ -6,8 +6,8 @@ defmodule Flaggy.Mixfile do
       app: :flaggy,
       version: "0.1.0",
       elixir: "~> 1.5",
-      elixirc_paths: elixirc_paths(Mix.env),
-      start_permanent: Mix.env == :prod,
+      elixirc_paths: elixirc_paths(Mix.env()),
+      start_permanent: Mix.env() == :prod,
       test_coverage: [tool: ExCoveralls],
       deps: deps()
     ]
@@ -21,7 +21,7 @@ defmodule Flaggy.Mixfile do
   end
 
   defp elixirc_paths(:test), do: ["lib", "test/support"]
-  defp elixirc_paths(_),     do: ["lib"]
+  defp elixirc_paths(_), do: ["lib"]
 
   defp deps do
     [
